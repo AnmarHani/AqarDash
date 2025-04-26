@@ -7,7 +7,7 @@ from database_utils import (
 )
 
 def marketers_page():
-    st.title("إدارة المسوقين")
+    st.title("إدارة المعلنين")
     
     # Check if user is logged in
     if not st.session_state.authenticated:
@@ -74,7 +74,7 @@ def marketers_page():
     
     # Display marketers
     if marketers:
-        st.header("قائمة المسوقين")
+        st.header("قائمة المعلنين")
         marketers_df = pd.DataFrame(marketers, columns=[
             'id', 'name', 'phone', 'marketer_type', 'email', 'admin_id'
         ])

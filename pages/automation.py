@@ -28,17 +28,8 @@ def automation_page():
         
         st.success(f"تم حفظ التسجيل في: {filename}")
         st.audio(filename)
-    
-    # Web Scraping Section
-    st.header("جمع البيانات من الويب")
-    st.write("أدخل رابط الصفحة التي تريد جمع البيانات منها:")
-    url = st.text_input("رابط الصفحة")
-    
-    if url:
-        st.write("سيتم جمع البيانات من الصفحة التالية:")
-        st.write(url)
-        # TODO: Add web scraping functionality when example webpage is provided
-    
+ 
+
     # AI Question Answering Section
     st.header("الأسئلة الذكية")
     question = st.text_area("اطرح سؤالك هنا", 

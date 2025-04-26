@@ -1,5 +1,7 @@
 import streamlit as st
 from database_utils import verify_admin, register_admin
+from utils.session import generate_session_token
+import time
 
 def auth_page():
     # Initialize session state variables
@@ -9,14 +11,16 @@ def auth_page():
         st.session_state.username = None
     if 'admin_id' not in st.session_state:
         st.session_state.admin_id = None
+    if 'session_token' not in st.session_state:
+        st.session_state.session_token = None
+    if 'session_expiry' not in st.session_state:
+        st.session_state.session_expiry = None
     
     # Check if user is already authenticated
     if st.session_state.authenticated:
         st.sidebar.success(f"مرحباً {st.session_state.username}")
         if st.sidebar.button("تسجيل الخروج"):
-            st.session_state.authenticated = False
-            st.session_state.username = None
-            st.session_state.admin_id = None
+            st.session_state.clear()
             st.rerun()
         return
     
@@ -30,9 +34,12 @@ def auth_page():
         if st.form_submit_button("تسجيل الدخول"):
             success, admin_id = verify_admin(username, password)
             if success:
+                # Generate new session token and set expiry (24 hours from now)
                 st.session_state.authenticated = True
                 st.session_state.username = username
                 st.session_state.admin_id = admin_id
+                st.session_state.session_token = generate_session_token()
+                st.session_state.session_expiry = time.time() + (24 * 60 * 60)  # 24 hours
                 st.success("تم تسجيل الدخول بنجاح")
                 st.rerun()
             else:
